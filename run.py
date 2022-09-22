@@ -1,6 +1,5 @@
 import time
-import random
-import requests
+import io
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,12 +8,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from webdriver_manager.chrome import ChromeDriverManager as CM
+test_in='x'
+test_in=input(test_in)
+print(test_in)
 
-print('=====================================================================================================')
-print('Heyy, you have to login manully on tiktok, so the bot will wait you 1 minute for loging in manually!')
-print('=====================================================================================================')
+print('=======================================================================================')
+print('Hey! You need to manually login to tiktok. I will wait 1 minute for to login manually!')
+print('=======================================================================================')
 time.sleep(8)
-print('Running bot now, get ready and login manually...')
+print('Bot is now running! Please log into TikTok')
 time.sleep(4)
 
 options = webdriver.ChromeOptions()
@@ -30,6 +32,31 @@ print('Waiting 50s for manual login...')
 time.sleep(50)
 bot.get('https://www.tiktok.com/upload/?lang=en')
 time.sleep(3)
+
+def addCaption():
+    caption='x'
+    print("Please enter caption and press Enter")
+    caption=input()
+    print("Are you sure you want this to be your caption \n" + caption)
+    if(input() == 'Yes' or 'yes' or 'YES'):
+        f=open("caption.txt", 'w')
+        f.write(caption)
+        print("Caption Saved!")
+    else:
+        print("Please enter caption and press Enter")
+        caption=input()
+
+def addHashtags():
+    hashTag = 'x'
+    print("Add Hashtags? - Yes or No")
+    if(input() == 'Yes' or 'yes' or 'YES'):
+        print("Add your hashtag and press Enter")
+        hashTag='#'+input('#')
+        print("Add this hashtag to post? - Yes or No\n", hashTag)
+        if(input() == 'Yes' or 'yes' or 'YES'):
+            f=open("caption.txt", 'w')
+            f.write(hashTag)
+            print("Caption Saved!")
 
 
 def check_exists_by_xpath(driver, xpath):
@@ -54,8 +81,6 @@ def upload(video_path):
         bot.implicitly_wait(10)
         ActionChains(bot).move_to_element(caption).click(
             caption).perform()
-        # ActionChains(bot).key_down(Keys.CONTROL).send_keys(
-        #     'v').key_up(Keys.CONTROL).perform()
 
         with open(r"caption.txt", "r") as f:
             tags = [line.strip() for line in f]
@@ -98,6 +123,8 @@ def upload(video_path):
 
         time.sleep(1)
 
+
+    
 
 # ================================================================
 # Here is the path of the video that you want to upload in tiktok.

@@ -1,5 +1,4 @@
 import time
-import io
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -8,9 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from webdriver_manager.chrome import ChromeDriverManager as CM
-test_in='x'
-test_in=input(test_in)
-print(test_in)
+
 
 print('=======================================================================================')
 print('Hey! You need to manually login to tiktok. I will wait 1 minute for to login manually!')
@@ -34,30 +31,54 @@ bot.get('https://www.tiktok.com/upload/?lang=en')
 time.sleep(3)
 
 def addCaption():
-    caption='x'
-    print("Please enter caption and press Enter")
-    caption=input()
-    print("Are you sure you want this to be your caption \n" + caption)
-    if(input() == 'Yes' or 'yes' or 'YES'):
-        f=open("caption.txt", 'w')
-        f.write(caption)
-        print("Caption Saved!")
-    else:
+    while(True):
+        choice='x'
+        caption='x'
         print("Please enter caption and press Enter")
         caption=input()
+        print("Are you sure you want this to be your caption - Yes or No \n" + caption)
+        choice=input()
+        if(choice == 'YES'):
+            f=open("caption.txt", 'w')
+            f.write(caption)
+            print("Caption Saved!")
+            return True
+        elif(choice == 'NO'):
+            print("Caption not Saved!")
 
 def addHashtags():
-    hashTag = 'x'
-    print("Add Hashtags? - Yes or No")
-    if(input() == 'Yes' or 'yes' or 'YES'):
-        print("Add your hashtag and press Enter")
-        hashTag='#'+input('#')
-        print("Add this hashtag to post? - Yes or No\n", hashTag)
-        if(input() == 'Yes' or 'yes' or 'YES'):
-            f=open("caption.txt", 'w')
-            f.write(hashTag)
-            print("Caption Saved!")
-
+    loop1=True
+    loop2=True
+    while(loop1==True):
+        hashTag = 'x'
+        choice1='x'
+        choice2='x'
+        choice3='x'
+        print("Add Hashtags? - Yes or No")
+        choice1=input()
+        if(choice1 =='YES'):
+            while(loop2==True):
+                print("Add your hashtag and press Enter")
+                hashTag='#'+input('#')
+                print("Add this hashtag to post? - Yes or No\n", hashTag)
+                choice2=input()
+                if(choice2 =='YES'):
+                    with open("caption.txt", "a") as f:
+                        f.write('\n'+hashTag)
+                    print("Hashtag Saved!")
+                    print("Add another Hashtag? - Yes or No")
+                    choice3=input()
+                    if(choice3=='YES'):
+                        continue
+                    else:
+                        loop2=False
+                elif(choice2=='NO'):
+                    print('Hastag not Saved')
+                    loop1=False
+                    loop2=False
+        else:
+            return False
+    loop1=False
 
 def check_exists_by_xpath(driver, xpath):
     try:

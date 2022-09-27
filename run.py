@@ -1,6 +1,4 @@
 import time
-import random
-import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -10,11 +8,12 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 from webdriver_manager.chrome import ChromeDriverManager as CM
 
-print('=====================================================================================================')
-print('Heyy, you have to login manully on tiktok, so the bot will wait you 1 minute for loging in manually!')
-print('=====================================================================================================')
+
+print('=======================================================================================')
+print('Hey! You need to manually login to tiktok. I will wait 1 minute for to login manually!')
+print('=======================================================================================')
 time.sleep(8)
-print('Running bot now, get ready and login manually...')
+print('Bot is now running! Please log into TikTok')
 time.sleep(4)
 
 options = webdriver.ChromeOptions()
@@ -31,6 +30,55 @@ time.sleep(50)
 bot.get('https://www.tiktok.com/upload/?lang=en')
 time.sleep(3)
 
+def addCaption():
+    while(True):
+        choice='x'
+        caption='x'
+        print("Please enter caption and press Enter")
+        caption=input()
+        print("Are you sure you want this to be your caption - Yes or No \n" + caption)
+        choice=input()
+        if(choice == 'YES'):
+            f=open("caption.txt", 'w')
+            f.write(caption)
+            print("Caption Saved!")
+            return True
+        elif(choice == 'NO'):
+            print("Caption not Saved!")
+
+def addHashtags():
+    loop1=True
+    loop2=True
+    while(loop1==True):
+        hashTag = 'x'
+        choice1='x'
+        choice2='x'
+        choice3='x'
+        print("Add Hashtags? - Yes or No")
+        choice1=input()
+        if(choice1 =='YES'):
+            while(loop2==True):
+                print("Add your hashtag and press Enter")
+                hashTag='#'+input('#')
+                print("Add this hashtag to post? - Yes or No\n", hashTag)
+                choice2=input()
+                if(choice2 =='YES'):
+                    with open("caption.txt", "a") as f:
+                        f.write('\n'+hashTag)
+                    print("Hashtag Saved!")
+                    print("Add another Hashtag? - Yes or No")
+                    choice3=input()
+                    if(choice3=='YES'):
+                        continue
+                    else:
+                        loop2=False
+                elif(choice2=='NO'):
+                    print('Hastag not Saved')
+                    loop1=False
+                    loop2=False
+        else:
+            return False
+    loop1=False
 
 def check_exists_by_xpath(driver, xpath):
     try:
@@ -54,8 +102,6 @@ def upload(video_path):
         bot.implicitly_wait(10)
         ActionChains(bot).move_to_element(caption).click(
             caption).perform()
-        # ActionChains(bot).key_down(Keys.CONTROL).send_keys(
-        #     'v').key_up(Keys.CONTROL).perform()
 
         with open(r"caption.txt", "r") as f:
             tags = [line.strip() for line in f]
@@ -98,6 +144,8 @@ def upload(video_path):
 
         time.sleep(1)
 
+
+    
 
 # ================================================================
 # Here is the path of the video that you want to upload in tiktok.

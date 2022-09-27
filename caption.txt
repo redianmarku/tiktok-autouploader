@@ -1,11 +1,3 @@
-Write your caption of the video here (only in one line)!
-#write
-#your
-#tags
-#here
-#in
-#colon
-#like
-#this
-#fyp
-#foryou
+CAP
+#HASH1
+#HASH2
